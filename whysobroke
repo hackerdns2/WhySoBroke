@@ -1,0 +1,136 @@
+#!/bin/bash
+
+#--------------------- [ WhySoBroke ] -----------------------------#
+# ~ WhySoBroke is a bash script which gathers target's nameservers #
+#   using dig (a cli tool) and check if it resolves with the       #
+#   particular domain.						   #
+# ~ It also enumerates CNAME and SERVFAIL records		   #
+# ~ For more info: https://github.com/vatsalroot/whysobroke        #
+#------------------------------------------------------------------#
+#							           #
+#--------------------- [ Author ] ---------------------------------#
+#  Vatsal  : (@vatsalroot)				           #
+#  Github  : https://github.com/vatsalroot		           #
+#  Twitter : https://twitter.com/vatsal_root	                   #
+#------------------------------------------------------------------#
+#							           #
+#--------------------- [ Licence ] --------------------------------#
+#  MIT License ~ http://opensource.org/licenses/MIT                #
+#------------------------------------------------------------------#
+
+
+## COLOR SCHEMES
+
+NORMAL="\e[0m"
+GRAY="\e[1m\e[37m"
+YELLOW="\e[1m\e[33m"
+CYAN="\e[1m\e[96m"
+B_RED="\e[1m\e[31m"
+GREEN="\e[1m\e[92m"
+WHITE="\e[1\e[97m"
+
+## 1337 BANNER
+
+banner(){
+
+echo -e "${GREEN}"
+echo -e "  ▄▄▌ ▐ ▄▌ ▄ .▄ ▄· ▄▌.▄▄ ·       ▄▄▄▄· ▄▄▄        ▄ •▄ ▄▄▄ . "
+echo -e "  ██· █▌▐███▪▐█▐█▪██▌▐█ ▀. ▪     ▐█ ▀█▪▀▄ █·▪     █▌▄▌▪▀▄.▀· "
+echo -e "  ██▪▐█▐▐▌██▀▐█▐█▌▐█▪▄▀▀▀█▄ ▄█▀▄ ▐█▀▀█▄▐▀▀▄  ▄█▀▄ ▐▀▀▄·▐▀▀▪▄ "
+echo -e "  ▐█▌██▐█▌██▌▐▀ ▐█▀·.▐█▄▪▐█▐█▌.▐▌██▄▪▐█▐█•█▌▐█▌.▐▌▐█.█▌▐█▄▄▌ "
+echo -e "   ▀▀▀▀ ▀▪▀▀▀ ·  ▀ •  ▀▀▀▀  ▀█▄▀▪·▀▀▀▀ .▀  ▀ ▀█▄▀▪·▀  ▀ ▀▀▀  ${WHITE}[by @vatsalroot]${RT}"
+echo -e "${NORMAL}"
+}
+
+
+## CHECKING IF DIG IS INSTALLED
+
+requirement=(dig gawk)
+for r in "${requirement[@]}"; do
+    type -p "$r" &>/dev/null || {
+        echo "error: Error: require ${r} but it's is not installed. Aborting." >&2
+        exit 1
+        }
+done
+
+
+## INPUT VALIDATION
+
+INPUT=$1
+
+if [[ -z "$1" ]]; then
+	echo -e "${B_RED}[-] Syntax : ./whysobroke <FILE_CONTAINING_DOMAINS>\e[0m${NORMAL}"
+	exit 1
+fi
+
+
+## FILE-PATH VALIDATION
+
+if [[ ! -f "$INPUT" ]]; then
+	echo -e "${B_RED}[-] File not found : $INPUT${NORMAL}"
+	exit 1
+fi
+
+
+## PERFORMING CHECK FOR INVALID DOMAINS
+
+GREP=$(grep -n -E "^\-|^\*|^\&|^\@|^\!|^\#|^\$|^\%|^\)|^\(|^\.|^\_|^\?" < "$INPUT" | tee invalid_inputs.txt)
+
+if [[ -n $GREP ]]; then
+        echo -e "${GRAY}$GREP ${B_RED}\n[-] ERROR : Need to clean this noisy urls. Output saved at 'invalid_inputs.txt' ${NORMAL}"
+	exit 1
+fi
+
+
+main(){
+
+for i in $(<$INPUT); do
+
+		dig=$(dig +tries=1 a "$i" 2>/dev/null)
+
+		## SEARCHING FOR RETURN CODES
+
+        	if [[ $dig == *"CNAME"* ]]; then
+			CNAME=$(dig +short cname "$i" 2>/dev/null)
+			printf "${CYAN}[*] CNAME \t\t: %-5s [%-5s]${NORMAL}\n" "$i" "$CNAME" | tee -a cname.txt
+                	continue
+		elif [[ $dig == *"NXDOMAIN"* ]]; then
+			printf "${GRAY}[*] NXDOMAIN\t\t: %-5s ${NORMAL}\n" "$i"
+                        continue
+		elif [[ $dig == *"SERVFAIL"* ]]; then
+			SERV=$(dig +trace "$i" 2>/dev/null | gawk -v var=$i '$0 ~ var {print $5}' | tr -d '\n;<<>>')
+			echo -e "${YELLOW}[*] SERVFAIL RECORD\t: $i [${SERV}]${NORMAL}" | tee -a servfail.txt
+			continue
+		else
+        		var=$(dig +short NS "$i" 2>/dev/null)
+        	fi
+
+		## CHECKING IF VARIABLE IS EMPTY OR NOT
+
+		if [[ -z $var ]]; then
+			printf "${GRAY}[*] NO NAMESERVERS \t: %s ${NORMAL}\n" "$i"
+			continue
+		elif [[ -n $var ]]; then
+			Temp=($var)
+		fi
+
+			## READING FILE AND CHECKING IF IT RESOLVES TO DOMAIN
+
+			for j in "${Temp[@]}"; do
+
+				local dig2=$(dig +tries=1 @"$j" "$i" 2>/dev/null)
+
+				if [[ $dig2 == *"NOERROR"* ]]; then
+					printf "${GRAY}[*] NOERROR\t\t: %-5s [%s] ${NORMAL}\n" "$i" "$j"
+        			else
+					printf "${B_RED}[+] PROBABLY VULNERABLE\t: %-5s [%s] ${NORMAL}\n" "$i" "$j" | tee -a vulns.txt
+        			fi
+			done
+done
+
+}
+
+## Calling functions
+
+banner
+main
