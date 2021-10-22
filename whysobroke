@@ -98,7 +98,7 @@ for i in $(<$INPUT); do
 			printf "${GRAY}[*] NXDOMAIN\t\t: %-5s ${NORMAL}\n" "$i"
                         continue
 		elif [[ $dig == *"SERVFAIL"* ]]; then
-			SERV=$(dig +trace "$i" 2>/dev/null | gawk -v var=$i '$0 ~ var {print $5}' | tr -d '\n;<<>>')
+			SERV=$(dig @8.8.8.8 +trace "$i" 2>/dev/null | gawk -v var=$i '$0 ~ var {print $5}' | tr -d '\n;<<>>')
 			echo -e "${YELLOW}[*] SERVFAIL RECORD\t: $i [${SERV}]${NORMAL}" | tee -a servfail.txt
 			continue
 		else
