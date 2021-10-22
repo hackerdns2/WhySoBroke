@@ -43,7 +43,7 @@ echo -e "${NORMAL}"
 }
 
 
-## CHECKING IF DIG IS INSTALLED
+## CHECKING REQUIREMENTS
 
 requirement=(dig gawk)
 for r in "${requirement[@]}"; do
