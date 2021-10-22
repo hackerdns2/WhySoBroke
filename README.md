@@ -22,7 +22,7 @@
 ### ✔️Installation
   
 ```
-- sudo git clone https://github.com/vatsalroot/WhySoBroke.git
+- sudo git clone https://github.com/vatsalroot/WhySoBroke.git ; cd WhySoBroke
 - sudo chmod +x whysobroke ; sudo chmod +x install.sh
 - sudo ./install.sh
 ```
