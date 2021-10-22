@@ -114,7 +114,7 @@ for i in $(<$INPUT); do
 			Temp=($var)
 		fi
 
-			## READING FILE AND CHECKING IF IT RESOLVES TO DOMAIN
+			## READING ARRAY AND CHECKING IF IT RESOLVES TO DOMAIN
 
 			for j in "${Temp[@]}"; do
 
