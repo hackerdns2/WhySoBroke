@@ -3,7 +3,7 @@
 
 <h1 align="center">
 <br>
-<img src=https://github.com/vatsalroot/whysobroke/blob/main/whysobroke.png>
+<img src=https://github.com/vatsalroot/whysobroke/blob/main/wsb.png>
 </h1>
 
 
