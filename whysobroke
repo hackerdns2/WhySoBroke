@@ -82,11 +82,11 @@ if [[ -n $GREP ]]; then
 fi
 
 
-main(){
+function main(){
 
 for i in $(<$INPUT); do
 
-		dig=$(dig +tries=1 a "$i" 2>/dev/null)
+		dig=$(dig a "$i" 2>/dev/null)
 
 		## SEARCHING FOR RETURN CODES
 
@@ -118,7 +118,7 @@ for i in $(<$INPUT); do
 
 			for j in "${Temp[@]}"; do
 
-				local dig2=$(dig +tries=1 @"$j" "$i" 2>/dev/null)
+				local dig2=$(dig @"$j" "$i" 2>/dev/null)
 
 				if [[ $dig2 == *"NOERROR"* ]]; then
 					printf "${GRAY}[*] NOERROR\t\t: %-5s [%s] ${NORMAL}\n" "$i" "$j"
