@@ -45,14 +45,22 @@ echo -e "${NORMAL}"
 
 ## CHECKING REQUIREMENTS
 
-requirement=(dig gawk)
+requirement=(dig gawk sed)
 for r in "${requirement[@]}"; do
     type -p "$r" &>/dev/null || {
-        echo "[-] Error : require ${r} but it's is not installed. Aborting." >&2
+        echo -e "${B_RED}[-] Error : Require ${r} but it's is not installed. Aborting.${NORMAL}" >&2
         exit 1
         }
 done
 
+## CHEKING FOR WRITE PERMISSION IN CURRENT DIR
+
+if [[ -w . ]]; then
+        :
+else
+        echo -e "${B_RED}[-] Error : No file write access in current directory. Please run this script as root!${NORMAL}"
+        exit 1
+fi
 
 ## INPUT VALIDATION
 
@@ -63,7 +71,6 @@ if [[ -z "$1" ]]; then
 	exit 1
 fi
 
-
 ## FILE-PATH VALIDATION
 
 if [[ ! -f "$INPUT" ]]; then
@@ -71,24 +78,17 @@ if [[ ! -f "$INPUT" ]]; then
 	exit 1
 fi
 
+## REMOVING INVALID DOMAINS
 
-## PERFORMING CHECK FOR INVALID DOMAINS
-
-GREP=$(grep -n -E "^\-|^\*|^\&|^\@|^\!|^\#|^\$|^\%|^\)|^\(|^\.|^\_|^\?" < "$INPUT" | tee invalid_inputs.txt)
-
-if [[ -n $GREP ]]; then
-        echo -e "${GRAY}$GREP ${B_RED}\n[-] ERROR : Need to clean this noisy urls. Output saved at 'invalid_inputs.txt' ${NORMAL}"
-	exit 1
-fi
-
+cat $INPUT | sed 's/[A-Z]/\L&/g;s/[^a-zA-Z0-9.-]//g;s/^[^a-z]*[-.]//' > clean.txt
 
 function main(){
 
-for i in $(<$INPUT); do
+for i in $(<clean.txt); do
 
 		dig=$(dig a "$i" 2>/dev/null)
 
-		## SEARCHING FOR RETURN CODES
+		## SEARCHING FOR DNS RETURN CODES (FROM DIG O/P)
 
         	if [[ $dig == *"CNAME"* ]]; then
 			CNAME=$(dig +short cname "$i" 2>/dev/null)
