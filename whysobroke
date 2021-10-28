@@ -48,7 +48,7 @@ echo -e "${NORMAL}"
 requirement=(dig gawk)
 for r in "${requirement[@]}"; do
     type -p "$r" &>/dev/null || {
-        echo "error: Error: require ${r} but it's is not installed. Aborting." >&2
+        echo "[-] Error : require ${r} but it's is not installed. Aborting." >&2
         exit 1
         }
 done
