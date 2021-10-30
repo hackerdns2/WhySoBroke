@@ -14,7 +14,7 @@
 </p>
 
 
-## 📝Introduction 
+## ⚡Introduction 
 
 <b>WhySoBroke</b> is a Bash script which checks if NS(nameserver) record of a domain resolves to that domain or not. It also scans target's other dns records such as cname, servfail, nxdomain.  
 <br>  
@@ -81,6 +81,11 @@ $ ./whysobroke domains.txt
 ~ [+] PROBABLY VULNERABLE : example.com [brokenserver.example.com]
 ```
 
-## ❤️ Contributions 
+### 📃Licence
+
+This project uses MIT License. For more details, click [here](https://github.com/vatsalroot/WhySoBroke/blob/main/LICENSE).
+
+
+### ❤️Contributions 
 
 All contributions are warmly welcomed!
