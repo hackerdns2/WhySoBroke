@@ -95,7 +95,8 @@ for i in $(<clean.txt); do
 			printf "${CYAN}[*] CNAME \t\t: %-5s [%-5s]${NORMAL}\n" "$i" "$CNAME" | tee -a cname.txt
                 	continue
 		elif [[ $dig == *"NXDOMAIN"* ]]; then
-			printf "${GRAY}[*] NXDOMAIN\t\t: %-5s ${NORMAL}\n" "$i"
+			NXDOMAIN=$(dig +short cname "$i" 2>/dev/null)
+			printf "${GRAY}[*] NXDOMAIN\t\t: %-5s [%-5s] ${NORMAL}\n" "$i" "$NXDOMAIN" | tee -a nxdomain.txt
                         continue
 		elif [[ $dig == *"SERVFAIL"* ]]; then
 			SERV=$(dig @8.8.8.8 +trace "$i" 2>/dev/null | gawk -v var=$i '$0 ~ var {print $5}' | tr -d '\n;<<>>')
