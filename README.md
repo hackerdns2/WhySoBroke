@@ -62,8 +62,9 @@ $ ./whysobroke domains.txt
 [+] Flags retruned by the script
 ---------------------------------
 
-1. NXDOMAIN : When target domain does not exist. 
-~ [*] NXDOMAIN : example.com  
+1. NXDOMAIN : When target domain does not exist. However, sometimes NXDOMAIN records does have CNAME record which will be scanned by the script.
+~ [*] NXDOMAIN : example.com [cname.example.com]
+~ [*] NXDOMAIN : example.com [ ] = when it returns result like this, it means that there is not domain or CNAME record found.
 
 2. SERVFAIL RECORD : When target domain's dns query fails. However, this script will also attempt to look for SERVFAIL target's nameservers.
 ~ [*] SERVFAIL RECORD : example.com [ns1.example.com.ns2.example.com.ns3.example.com.ns4.example.com]
