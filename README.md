@@ -48,6 +48,24 @@ $ ./whysobroke domains.txt
 [*] CNAME               : example5.com [someotherdomain.com]   
 ```  
 
+### ⭐Other features
+
+- The tool also cleans urls either they are in uppercase or assorted with special chars. 
+
+```
+$ cat domains.txt
+
+EXXAMPLE.COM
+#!@!@*(EXAMPLE2.COM
+example3%$-staging.com
+
+$ ./whysobroke domains.txt
+
+[*] NOERROR             : example.com [ns.example.com]
+[*] NOERROR             : example2.com [ns.example2.com]
+[+] PROBABLY VULNERABLE : example3-staging.com [brokenserver.example3-staging.com]
+```
+
 ### 📁Output
 
 - The script appends the output of CNAME,SERVFAIL and VULNERABLE records in cname.txt, servfail.txt and vulns.txt respectively. 
@@ -81,6 +99,7 @@ $ ./whysobroke domains.txt
 6. [+] PROBABLY VULNERABLE  : It is returned when the nameserver fails to resolve domain.
 ~ [+] PROBABLY VULNERABLE : example.com [brokenserver.example.com]
 ```
+
 
 ### 📃Licence
 
