@@ -80,7 +80,7 @@ fi
 
 ## REMOVING INVALID DOMAINS
 
-cat $INPUT | sed 's/[A-Z]/\L&/g;s/[^a-zA-Z0-9.-]//g;s/^[^a-z]*[-.]//' > clean.txt
+cat $INPUT | sed 's/[A-Z]/\L&/g;s/[^a-zA-Z0-9.-]//g;s/^[^a-z]*[-.]//' | sort | uniq > clean.txt
 
 function main(){
 
