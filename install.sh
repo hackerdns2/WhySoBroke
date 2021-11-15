@@ -9,7 +9,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-echo "[+] Installing dnsutils package"
+echo "[+] Installing dnsutils"
 sudo apt install dnsutils -y &>/dev/null
 echo "[+] Installing gawk" 
 sudo apt install gawk -y &>/dev/null
