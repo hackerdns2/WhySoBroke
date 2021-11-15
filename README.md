@@ -55,7 +55,7 @@ $ ./whysobroke domains.txt
 ```
 $ cat domains.txt
 
-EXXAMPLE.COM
+EXAMPLE.COM
 #!@!@*(EXAMPLE2.COM
 example3%$-staging.com
 
