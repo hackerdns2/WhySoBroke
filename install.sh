@@ -9,6 +9,8 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+echo "[+] Installing dnsutils package"
 sudo apt install dnsutils -y &>/dev/null
+echo "[+] Installing gawk" 
 sudo apt install gawk -y &>/dev/null
-echo "Done."
+echo "[+] Done. Now run the script by simply typing : ./whysobroke <file>"
