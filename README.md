@@ -100,6 +100,10 @@ $ ./whysobroke domains.txt
 ~ [+] PROBABLY VULNERABLE : example.com [brokenserver.example.com]
 ```
 
+### 🆗 Tested OS
+
+- Ubuntu 20.04
+
 
 ### 📃Licence
 
