@@ -78,13 +78,16 @@ if [[ ! -f "$INPUT" ]]; then
 	exit 1
 fi
 
-## REMOVING INVALID DOMAINS
+## CLEANING INVALID DOMAINS
 
-cat $INPUT | sed 's/[A-Z]/\L&/g;s/[^a-zA-Z0-9.-]//g;s/^[^a-z0-9]*[-.]//' | uniq > clean.txt
+cat $INPUT | sed 's/[A-Z]/\L&/g;s/[^a-zA-Z0-9.-]//g;s/^[^a-z0-9]*[-.]//' > clean1.txt
+cat $INPUT | sed 's/[A-Z]/\L&/g;s/[^a-zA-Z0-9.-]//g;s/^[^a-z]*[-.]//' > clean2.txt
+cat clean1.txt clean2.txt | awk '!seen[$0]++' > op.txt
+rm clean1.txt clean2.txt
 
 function main(){
 
-for i in $(<clean.txt); do
+for i in $(<op.txt); do
 
 		dig=$(dig a "$i" 2>/dev/null)
 
