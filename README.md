@@ -66,6 +66,8 @@ $ ./whysobroke domains.txt
 [+] PROBABLY VULNERABLE : example3-staging.com [brokenserver.example3-staging.com]
 ```
 
+- If you have configured `telegram-send` then you can just uncomment last few lines from "whysobroke" script and results will be sent to your telegram. More information on how to configure telegram would be find [here](https://www.linux-magazine.com/Online/Blogs/Productivity-Sauce/Push-Messages-from-the-Command-Line-to-Telegram).
+
 ### 📁Output
 
 - The script saves CNAME,SERVFAIL and VULNERABLE records in cname.txt, servfail.txt and vulns.txt respectively. 
