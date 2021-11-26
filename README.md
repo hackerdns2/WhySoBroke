@@ -68,8 +68,8 @@ $ ./whysobroke domains.txt
 
 ### 📁Output
 
-- The script appends the output of CNAME,SERVFAIL and VULNERABLE records in cname.txt, servfail.txt and vulns.txt respectively. 
-- Note : If you want fresh output then consider removing existing txt files otherwise output will be added to that files.
+- The script saves CNAME,SERVFAIL and VULNERABLE records in cname.txt, servfail.txt and vulns.txt respectively. 
+- **WARNING!** : Whenever script runs it removes existing txt files so make sure to move/rename them after each scan.
 
 ### 📌How it works? / Summary
 
