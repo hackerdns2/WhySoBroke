@@ -78,6 +78,13 @@ if [[ ! -f "$INPUT" ]]; then
 	exit 1
 fi
 
+## Removing existing files
+
+rm servfail.txt 2>/dev/null
+rm op.txt 2>/dev/null
+rm vulns.txt 2>/dev/null
+rm nxdomain.txt 2>/dev/null
+
 ## CLEANING INVALID DOMAINS
 
 cat $INPUT | sed 's/[A-Z]/\L&/g;s/[^a-zA-Z0-9.-]//g;s/^[^a-z0-9]*[-.]//' > clean1.txt
