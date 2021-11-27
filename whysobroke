@@ -48,7 +48,7 @@ echo -e "${NORMAL}"
 requirement=(dig gawk sed)
 for r in "${requirement[@]}"; do
     type -p "$r" &>/dev/null || {
-        echo -e "${B_RED}[-] Error : Require ${r} but it's is not installed. Aborting.${NORMAL}" >&2
+        echo -e "${B_RED}[-] Error : Require ${r} but it's is not installed. Terminating. ${NORMAL}" >&2
         exit 1
         }
 done
