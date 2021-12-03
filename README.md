@@ -98,7 +98,7 @@ $ ./whysobroke domains.txt
 5. CNAME : When target is pointed to canonical name record (CNAME)
 ~ [*] CNAME : example.com [example2.com]
 
-6. [+] PROBABLY VULNERABLE  : It is returned when the nameserver fails to resolve domain.
+6. PROBABLY VULNERABLE  : It is returned when the nameserver fails to resolve domain.
 ~ [+] PROBABLY VULNERABLE : example.com [brokenserver.example.com]
 ```
 
