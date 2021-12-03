@@ -162,3 +162,4 @@ main
 #telegram-send -f vulns.txt 2>/dev/null
 #telegram-send -f servfail.txt 2>/dev/null
 #telegram-send -f nxdomain.txt 2>/dev/null
+#telegram-send -f refused.txt 2>/dev/null
