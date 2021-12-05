@@ -112,10 +112,6 @@ for i in $(<op.txt); do
                                         printf "${GRAY}[*] NXDOMAIN\t\t: %-5s ${NORMAL}\n" "$i"
 					continue
                                 fi
-		elif [[ $dig == *"REFUSED"* ]]; then
-			echo -e "${YELLOW}[*] REFUSED RECORD\t: $i ${NORMAL}" | tee -a refused.txt
-			continue
-		else
 		elif [[ $dig == *"SERVFAIL"* ]]; then
 			SERV=$(dig @8.8.8.8 +trace "$i" 2>/dev/null | gawk -v var=$i '$0 ~ var {print $5}' | tr -d '\n;<<>>')
 			echo -e "${YELLOW}[*] SERVFAIL RECORD\t: $i [${SERV}]${NORMAL}" | tee -a servfail.txt
@@ -162,4 +158,3 @@ main
 #telegram-send -f vulns.txt 2>/dev/null
 #telegram-send -f servfail.txt 2>/dev/null
 #telegram-send -f nxdomain.txt 2>/dev/null
-#telegram-send -f refused.txt 2>/dev/null
