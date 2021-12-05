@@ -69,7 +69,7 @@ $ ./whysobroke domains.txt
 ### 📁Output
 
 - The script saves CNAME,SERVFAIL and VULNERABLE records in cname.txt, servfail.txt and vulns.txt respectively. 
-- **WARNING!** : Whenever script runs it removes existing txt files so make sure to move/rename them after each scan.
+- **NOTE!** : Whenever script runs it removes existing txt files so make sure to move/rename them after each scan.
 
 #### 📳Output in telegram
 
